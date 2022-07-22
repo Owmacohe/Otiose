@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Skybox
+  m_Name: Character Skybox
   m_Shader: {fileID: -6465566751694194690, guid: 44b45eaa0f6c39040bef54d737f3402f, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -78,7 +78,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_c77d81e545954cd0b55278e2ba9a8830: 0
+    - Vector1_c77d81e545954cd0b55278e2ba9a8830: -0.5
     - Vector1_fde129e198e94c77ac906bc5d7f525ab: 0.5
     - _AlphaClip: 0
     - _Blend: 0
@@ -108,8 +108,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_4426999063b847ddb3ca0200d0cd3a69: {r: 0.99116665, g: 1, b: 0.894, a: 1}
-    - Color_c2df8d538a29426d87cca79e3feeba9c: {r: 0.40784314, g: 0.34901962, b: 0.24313726, a: 1}
+    - Color_4426999063b847ddb3ca0200d0cd3a69: {r: 0, g: 0, b: 0, a: 1}
+    - Color_c2df8d538a29426d87cca79e3feeba9c: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

@@ -5,10 +5,13 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    float movementSpeed = 0.5f;
+    float movementSpeed = 0.05f;
     [SerializeField]
     float rotationSpeed = 0.2f;
+    [SerializeField]
+    Transform headBone;
 
+    bool hasStarted;
     float startSpeed;
     Vector2 direction;
     bool isWalking, isRunning, isJumping;
@@ -18,12 +21,26 @@ public class PlayerController : MonoBehaviour
     
     void Start()
     {
+        Invoke(nameof(WaitStart), 0.01f);
+    }
+
+    void WaitStart()
+    {
+        if (Physics.Raycast(Vector3.up * 100, Vector3.down, out var hit, Mathf.Infinity))
+        {
+            transform.parent.position = Vector3.up * (hit.point.y + 0.5f);
+        }
+        
         anim = GetComponent<Animator>();
         camera = Camera.main.transform;
         cameraOffset = camera.parent;
         rb = GetComponent<Rigidbody>();
 
         startSpeed = movementSpeed;
+
+        Invoke(nameof(SetHat), 0.01f);
+
+        hasStarted = true;
     }
 
     void OnMove(InputValue input)
@@ -92,32 +109,51 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        cameraOffset.position = transform.position;
+        if (hasStarted)
+        {
+            cameraOffset.position = transform.position;   
+        }
     }
 
     void FixedUpdate()
     {
-        if (isWalking)
+        if (hasStarted)
         {
-            transform.rotation = cameraOffset.rotation;
-            
-            if (isRunning && !isJumping)
+            if (isWalking)
             {
-                movementSpeed = 2 * startSpeed;
-                anim.SetBool("isRunning", true);
+                transform.rotation = cameraOffset.rotation;
+            
+                if (isRunning && !isJumping)
+                {
+                    movementSpeed = 2 * startSpeed;
+                    anim.SetBool("isRunning", true);
+                }
+                else
+                {
+                    movementSpeed = startSpeed;
+                    anim.SetBool("isRunning", false);
+                }
+            
+                rb.transform.position += (transform.forward * direction.y + transform.right * direction.x) * movementSpeed;
             }
             else
             {
                 movementSpeed = startSpeed;
                 anim.SetBool("isRunning", false);
-            }
-            
-            rb.transform.position += (transform.forward * direction.y + transform.right * direction.x) * movementSpeed;
+            }   
         }
-        else
+    }
+
+    void SetHat()
+    {
+        try
         {
-            movementSpeed = startSpeed;
-            anim.SetBool("isRunning", false);
+            GameObject hat = FindObjectOfType<PlayerStats>().hatObject;
+        
+            Transform temp = Instantiate(hat, headBone).transform;
+            temp.Rotate(Vector3.up, 180);
+            temp.localPosition += Vector3.down;   
         }
+        catch { }
     }
 }

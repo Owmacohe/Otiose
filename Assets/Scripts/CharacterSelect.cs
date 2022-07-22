@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CharacterSelect : MonoBehaviour
 {
     [SerializeField]
-    Transform leftItems, rightItems, headBone;
+    Transform leftObjects, rightObjects, leftItems, rightItems, headBone;
     [SerializeField]
     string[] types;
     [SerializeField]
@@ -61,12 +61,14 @@ public class CharacterSelect : MonoBehaviour
     {
         GameObject itemObject = Resources.Load<GameObject>("Item");
         Transform currentParent = leftItems;
+        Transform currentObjectParent = leftObjects;
 
         for (int i = 0; i < type.items.Length; i++)
         {
             if (i == type.items.Length / 2)
             {
                 currentParent = rightItems;
+                currentObjectParent = rightObjects;
             }
             
             type.names[i] = type.items[i].name + " " + type.typeName;
@@ -77,7 +79,13 @@ public class CharacterSelect : MonoBehaviour
             int selectionIndex = i;
             temp.GetComponentInChildren<Button>().onClick.AddListener(delegate { SelectItem(type, selectionIndex); });
             
-            Instantiate(type.items[i], temp.transform.GetChild(2)).AddComponent<ItemRotator>();
+            Instantiate(
+                type.items[i], 
+                Instantiate(
+                    Resources.Load<GameObject>("Object"),
+                    currentObjectParent
+                ).transform.GetChild(0)
+            ).AddComponent<ItemRotator>();
         }
     }
 
@@ -94,8 +102,8 @@ public class CharacterSelect : MonoBehaviour
         Transform temp = Instantiate(type.items[index], headBone).transform;
         temp.Rotate(Vector3.up, 180);
         temp.localPosition += Vector3.down;
-
-        if (type.typeName.Equals("hats"))
+        
+        if (type.typeName.Equals("hat"))
         {
             stats.hatObject = type.items[index];
         }
