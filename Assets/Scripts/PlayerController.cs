@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     Animator anim;
     Transform camera, cameraOffset;
     Rigidbody rb;
+
+    NPCController closestNPC;
     
     void Start()
     {
@@ -26,11 +28,6 @@ public class PlayerController : MonoBehaviour
 
     void WaitStart()
     {
-        if (Physics.Raycast(Vector3.up * 100, Vector3.down, out var hit, Mathf.Infinity))
-        {
-            transform.parent.position = Vector3.up * (hit.point.y + 0.5f);
-        }
-        
         anim = GetComponent<Animator>();
         camera = Camera.main.transform;
         cameraOffset = camera.parent;
@@ -87,23 +84,37 @@ public class PlayerController : MonoBehaviour
 
     void OnLookX(InputValue input)
     {
-        cameraOffset.Rotate(Vector3.up, input.Get<float>() * rotationSpeed);
+        if (hasStarted)
+        {
+            cameraOffset.Rotate(Vector3.up, input.Get<float>() * rotationSpeed);   
+        }
     }
     
     void OnLookY(InputValue input)
     {
-        if (camera.eulerAngles.x <= 60)
+        if (hasStarted)
         {
-            camera.transform.Rotate(Vector3.right, input.Get<float>() * -rotationSpeed, Space.Self);   
-        }
+            if (camera.eulerAngles.x <= 60)
+            {
+                camera.transform.Rotate(Vector3.right, input.Get<float>() * -rotationSpeed, Space.Self);   
+            }
 
-        if (camera.eulerAngles.x > 180)
-        {
-            camera.localEulerAngles = Vector3.right * 0.01f;
+            if (camera.eulerAngles.x > 180)
+            {
+                camera.localEulerAngles = Vector3.right * 0.01f;
+            }
+            else if (camera.eulerAngles.x > 60 && camera.eulerAngles.x < 180)
+            {
+                camera.localEulerAngles = Vector3.right * 59.9f;
+            }   
         }
-        else if (camera.eulerAngles.x > 60 && camera.eulerAngles.x < 180)
+    }
+
+    void OnInteract()
+    {
+        if (closestNPC != null)
         {
-            camera.localEulerAngles = Vector3.right * 59.9f;
+            closestNPC.Interact(transform);
         }
     }
 
@@ -141,6 +152,26 @@ public class PlayerController : MonoBehaviour
                 movementSpeed = startSpeed;
                 anim.SetBool("isRunning", false);
             }   
+        }
+
+        closestNPC = null;
+        NPCController[] NPCs = FindObjectsOfType<NPCController>();
+
+        foreach (NPCController i in NPCs)
+        {
+            if (Vector3.Distance(transform.position, i.transform.position) <= 1)
+            {
+                if (!i.isInteracting)
+                {
+                    i.Prompt();    
+                }
+                
+                closestNPC = i;
+            }
+            else
+            {
+                i.Hide();
+            }
         }
     }
 

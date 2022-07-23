@@ -9,32 +9,54 @@ public class PerlinTerrain : MonoBehaviour
     GameObject groundObject;
     [SerializeField]
     int count;
+    [SerializeField]
+    Material waterMaterial;
 
-    List<GameObject> tiles;
+    List<GameObject> tiles, waterTiles;
     int offset;
+    [HideInInspector] public float bounds;
 
     void Start()
     {
-        tiles = new List<GameObject>();
-        
-        float seed = Random.Range(4.1f, 4.5f);
+        bounds = count * 2;
         offset = (count / 2) * 10;
+        
+        tiles = new List<GameObject>();
+        float seed = Random.Range(4.1f, 4.5f);
 
         for (int i = 0; i < count; i++)
         {
             for (int j = 0; j < count; j++)
             {
-                GameObject temp = Instantiate(groundObject, transform);
-                temp.transform.localPosition = new Vector3((i * 10) - offset, 0, (j * 10) - offset);
+                Vector3 tempPosition = new Vector3((i * 10) - offset, 0, (j * 10) - offset);
 
-                if (Vector3.Distance(temp.transform.position, transform.position) > (count * 10) / 2f)
+                if (Vector3.Distance(tempPosition, transform.position) <= (count * 10) / 3f)
                 {
-                    Destroy(temp);
-                }
-                else
-                {
-                    Generate(temp, seed);
+                    GameObject temp = CreateGround(tempPosition);
+                    
+                    Generate(temp, seed, true);
+                    
                     tiles.Add(temp);
+                }
+            }
+        }
+
+        waterTiles = new List<GameObject>();
+
+        for (int k = 0; k < count * 1.5f; k++)
+        {
+            for (int l = 0; l < count * 1.5f; l++)
+            {
+                Vector3 tempPosition = new Vector3((k * 10) - (offset * 1.5f), 0, (l * 10) - (offset * 1.5f));
+                
+                if (Vector3.Distance(tempPosition, transform.position) <= (count * 10) / 1.5f)
+                {
+                    GameObject temp = CreateGround(tempPosition);
+                    temp.GetComponent<MeshRenderer>().material = waterMaterial;
+                    Destroy(temp.GetComponent<MeshCollider>());
+                    temp.transform.position += Vector3.up * 4.5f;
+                
+                    waterTiles.Add(temp);   
                 }
             }
         }
@@ -42,7 +64,23 @@ public class PerlinTerrain : MonoBehaviour
         AddHills();
     }
 
-    void Generate(GameObject obj, float seed)
+    void FixedUpdate()
+    {
+        foreach (GameObject i in waterTiles)
+        {
+            Generate(i, Time.time / 3f, false);
+        }
+    }
+
+    GameObject CreateGround(Vector3 pos)
+    {
+        GameObject temp = Instantiate(groundObject, transform);
+        temp.transform.localPosition = pos;
+
+        return temp;
+    }
+
+    void Generate(GameObject obj, float seed, bool addCollider)
     {
         MeshFilter mf = obj.GetComponent<MeshFilter>();
         Vector3[] vertices = mf.mesh.vertices;
@@ -54,9 +92,12 @@ public class PerlinTerrain : MonoBehaviour
 
         mf.mesh.vertices = vertices;
         mf.mesh.RecalculateBounds();
-        
-        Destroy(obj.GetComponent<MeshCollider>());
-        obj.AddComponent<MeshCollider>();
+
+        if (addCollider)
+        {
+            Destroy(obj.GetComponent<MeshCollider>());
+            obj.AddComponent<MeshCollider>();   
+        }
     }
 
     void AddHills()
