@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player
+  m_Name: Raja
   m_Shader: {fileID: -6465566751694194690, guid: 131ed2b8d00c056488238911472f813e, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -113,9 +113,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_4426999063b847ddb3ca0200d0cd3a69: {r: 1, g: 0, b: 0, a: 0}
-    - Color_64d861fce71044349695d1bac7f2ea98: {r: 0, g: 0, b: 0, a: 1}
+    - Color_64d861fce71044349695d1bac7f2ea98: {r: 0.504, g: 0.29400003, b: 0, a: 1}
     - Color_c2df8d538a29426d87cca79e3feeba9c: {r: 0, g: 0.2338161, b: 1, a: 0}
-    - Color_d3f90b46fa4040c48d4031973961bef6: {r: 1, g: 1, b: 1, a: 1}
+    - Color_d3f90b46fa4040c48d4031973961bef6: {r: 1, g: 0, b: 0, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

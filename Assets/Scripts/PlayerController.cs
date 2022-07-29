@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     void OnInteract()
     {
-        if (closestNPC != null)
+        if (closestNPC != null && !closestNPC.isInteracting)
         {
             closestNPC.Interact(transform);
         }
