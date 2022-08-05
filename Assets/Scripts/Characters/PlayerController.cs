@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
     void OnRun(InputValue input)
     {
         if (input.isPressed)
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour
             isRunning = false;
         }
     }
+    */
 
     void OnJump(InputValue input)
     {

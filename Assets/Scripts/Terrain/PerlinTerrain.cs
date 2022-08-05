@@ -11,6 +11,12 @@ public class PerlinTerrain : MonoBehaviour
     int count;
     [SerializeField]
     Material waterMaterial;
+    [SerializeField]
+    bool addHills = true;
+    [SerializeField]
+    bool randomSeed = true;
+    [SerializeField, Range(4.1f, 4.5f)]
+    float seed;
 
     List<GameObject> tiles, waterTiles;
     int offset;
@@ -22,7 +28,11 @@ public class PerlinTerrain : MonoBehaviour
         offset = (count / 2) * 10;
         
         tiles = new List<GameObject>();
-        float seed = Random.Range(4.1f, 4.5f);
+
+        if (randomSeed)
+        {
+            seed = Random.Range(4.1f, 4.5f);   
+        }
 
         for (int i = 0; i < count; i++)
         {
@@ -33,6 +43,11 @@ public class PerlinTerrain : MonoBehaviour
                 if (Vector3.Distance(tempPosition, transform.position) <= (count * 10) / 3f)
                 {
                     GameObject temp = CreateGround(tempPosition);
+
+                    if (!addHills)
+                    {
+                        temp.transform.localPosition += Vector3.up * 4.8f;
+                    }
                     
                     Generate(temp, seed, true);
                     
@@ -60,8 +75,11 @@ public class PerlinTerrain : MonoBehaviour
                 }
             }
         }
-        
-        AddHills();
+
+        if (addHills)
+        {
+            AddHills();   
+        }
     }
 
     void FixedUpdate()
