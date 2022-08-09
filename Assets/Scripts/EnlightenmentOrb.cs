@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Enlightenment : MonoBehaviour
+public class EnlightenmentOrb : MonoBehaviour
 {
     [SerializeField]
     GameObject distortion;

@@ -5,7 +5,9 @@ public class SceneController : MonoBehaviour
 {
     public static void Load(string name)
     {
-        if (name.Equals("Environment") && FindObjectOfType<PlayerStats>().hatObject == null)
+        PlayerStats temp = FindObjectOfType<PlayerStats>();
+    
+        if (name.Equals("Environment") && temp != null && temp.hatObject == null)
         {
             return;
         }

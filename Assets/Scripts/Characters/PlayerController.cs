@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
 
     NPCController closestNPC;
+    EnlightenmentController closestEnlightenment;
     
     void Start()
     {
@@ -118,6 +119,10 @@ public class PlayerController : MonoBehaviour
         {
             closestNPC.Interact(transform);
         }
+        else if (closestEnlightenment != null && !closestEnlightenment.isInteracting)
+        {
+            closestEnlightenment.Interact();
+        }
     }
 
     void Update()
@@ -173,6 +178,26 @@ public class PlayerController : MonoBehaviour
             else
             {
                 i.Hide();
+            }
+        }
+
+        closestEnlightenment = null;
+        EnlightenmentController[] enlightenments = FindObjectsOfType<EnlightenmentController>();
+        
+        foreach (EnlightenmentController j in enlightenments)
+        {
+            if (Vector3.Distance(transform.position, j.transform.position) <= 1)
+            {
+                if (!j.isInteracting)
+                {
+                    j.Prompt();   
+                }
+
+                closestEnlightenment = j;
+            }
+            else
+            {
+                j.Hide();
             }
         }
     }

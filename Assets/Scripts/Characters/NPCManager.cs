@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,17 +13,22 @@ public class NPCManager : MonoBehaviour
     TextAsset[] dialogues;
     [SerializeField]
     Material[] materials;
+    public TMP_Text UI;
     [SerializeField]
     GameObject enlightenmentObject;
     [SerializeField]
     int enlightenments;
-    
+    [SerializeField]
+    TextAsset enlightenmentText;
+
     public enum NPCTypes { None, Bhata, Raja, Shakata }
     [HideInInspector] public NPCTypes current;
 
     [HideInInspector] public int currentNPCDialogue;
     [HideInInspector] public Dialogue[] NPCDialogues;
     [HideInInspector] public int[] dialogueSpeeds;
+
+    List<string> enlightenmentTexts;
 
     public struct Dialogue
     {
@@ -42,6 +50,10 @@ public class NPCManager : MonoBehaviour
         
         Invoke(nameof(GenerateNPCs), 0.05f);
         Invoke(nameof(GenerateEnlightenment), 0.1f);
+
+        enlightenmentTexts = new List<string>();
+        GenerateEnlightenmentTexts();
+        HideEnlightenment();
     }
 
     void GenerateNPCs()
@@ -100,5 +112,29 @@ public class NPCManager : MonoBehaviour
         }
 
         return temp;
+    }
+
+    void GenerateEnlightenmentTexts()
+    {
+        enlightenmentTexts = enlightenmentText.text.Split('\n').ToList();
+    }
+
+    public string GetEnlightenment()
+    {
+        if (enlightenmentTexts.Count == 0)
+        {
+            GenerateEnlightenmentTexts();
+        }
+
+        int index = Random.Range(0, enlightenmentTexts.Count);
+        string temp = enlightenmentTexts[index];
+        enlightenmentTexts.RemoveAt(index);
+
+        return temp;
+    }
+
+    public void HideEnlightenment()
+    {
+        GameObject.FindWithTag("Enlightenment").GetComponent<TMP_Text>().enabled = false;
     }
 }

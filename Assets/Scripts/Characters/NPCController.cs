@@ -124,6 +124,8 @@ public class NPCController : MonoBehaviour
             NPCDialogue = manager.NPCDialogues[manager.currentNPCDialogue];
             manager.currentNPCDialogue++;
 
+            manager.UI.text = "Perspectives explored: <font=Aromatron SDF>" + manager.currentNPCDialogue + "/3</font>";
+
             switch (manager.current)
             {
                 case NPCManager.NPCTypes.Bhata:
