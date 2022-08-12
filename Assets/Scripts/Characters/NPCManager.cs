@@ -17,8 +17,6 @@ public class NPCManager : MonoBehaviour
     [SerializeField]
     GameObject enlightenmentObject;
     [SerializeField]
-    int enlightenments;
-    [SerializeField]
     TextAsset enlightenmentText;
 
     public enum NPCTypes { None, Bhata, Raja, Shakata }
@@ -48,12 +46,12 @@ public class NPCManager : MonoBehaviour
             ParseDialogue(dialogues[2])
         };
         
-        Invoke(nameof(GenerateNPCs), 0.05f);
-        Invoke(nameof(GenerateEnlightenment), 0.1f);
-
         enlightenmentTexts = new List<string>();
         GenerateEnlightenmentTexts();
         HideEnlightenment();
+        
+        Invoke(nameof(GenerateNPCs), 0.05f);
+        Invoke(nameof(GenerateEnlightenment), 0.1f);
     }
 
     void GenerateNPCs()
@@ -72,7 +70,7 @@ public class NPCManager : MonoBehaviour
     {
         float max = FindObjectOfType<PerlinTerrain>().bounds;
         
-        for (int i = 0; i < enlightenments; i++)
+        for (int i = 0; i < enlightenmentTexts.Count; i++)
         {
             Instantiate(enlightenmentObject, null).transform.position = new Vector3(Random.Range(-max, max), 0, Random.Range(-max, max));
         }

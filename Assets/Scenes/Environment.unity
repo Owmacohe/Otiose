@@ -437,7 +437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Is this really an ultimate truth, or am I just lying?
+  m_text: Enlightenment Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c59a2dc1e34f784cb02d6b88f4d8d7a, type: 2}
   m_sharedMaterial: {fileID: -2827075902470797580, guid: 6c59a2dc1e34f784cb02d6b88f4d8d7a, type: 2}
@@ -446,9 +446,9 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+    rgba: 4294638330
+  m_fontColor: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
@@ -1334,7 +1334,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: aae8d2dae2e54d34591f31adbcfc238d, type: 2}
   UI: {fileID: 1763795172}
   enlightenmentObject: {fileID: 7835214533822584791, guid: 0f2a9f8cd57d0604aa822b644fe744a5, type: 3}
-  enlightenments: 10
   enlightenmentText: {fileID: 4900000, guid: 5501dbf3e46c4c7389f35b759ee47a64, type: 3}
   current: 0
   currentNPCDialogue: 0

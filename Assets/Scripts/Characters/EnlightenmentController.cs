@@ -8,6 +8,7 @@ public class EnlightenmentController : MonoBehaviour
     
     GameObject prompt;
     NPCManager manager;
+    AudioSource source;
 
     void Start()
     {
@@ -15,6 +16,8 @@ public class EnlightenmentController : MonoBehaviour
         prompt.SetActive(false);
         
         manager = FindObjectOfType<NPCManager>();
+
+        source = GetComponent<AudioSource>();
     }
     
     public void Hide()
@@ -43,7 +46,9 @@ public class EnlightenmentController : MonoBehaviour
         temp.enabled = true;
         temp.text = manager.GetEnlightenment();
         
-        Invoke(nameof(HideEnlightenment), 3);
+        source.Play();
+        
+        Invoke(nameof(HideEnlightenment), 6);
     }
 
     void HideEnlightenment()
